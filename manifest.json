@@ -1,0 +1,16 @@
+{
+    "name": "LeetMacro",
+    "description": "Creates macros for LeetCode",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_popup": "index.html"
+    },
+    "permissions": ["activeTab"],
+    "content_scripts": [
+        {
+            "matches": ["*://leetcode.com/problems/*"],
+            "js": ["index.js"]
+        }
+    ]
+}
