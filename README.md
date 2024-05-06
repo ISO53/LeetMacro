@@ -1,0 +1,2 @@
+# LeetSout
+ sout for leetcode
