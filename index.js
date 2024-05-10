@@ -6,7 +6,7 @@ const MACROS = {
 };
 
 // Stack's max size should be this
-const MAX_KEY_SIZE = maxKeySize(MACROS);
+const MAX_KEY_SIZE = Object.keys(MACROS).reduce((max, key) => Math.max(max, key.length), 0);
 
 // Stack to store pressed keys
 let keyStack = [];
@@ -43,16 +43,6 @@ function handleKeyPress(event) {
         // Place the div on that position
         document.body.appendChild(macroDiv);
     }
-}
-
-function maxKeySize(macros) {
-    let maxKeySize = 0;
-    for (const key in macros) {
-        if (key.length > maxKeySize) {
-            maxKeySize = key.length;
-        }
-    }
-    return maxKeySize;
 }
 
 function getCursorXY(input) {
