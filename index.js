@@ -233,3 +233,14 @@ function deleteAllPairs() {
     localStorage.setItem("pairs", JSON.stringify({}));
 }
 
+function refreshPairsOnUI() {
+    TABLE_CONTENTS.innerHTML = "";
+    const pairs = getAllPairs();
+
+    for (const key in pairs) {
+        addPairToUI(key, pairs[key]);
+    }
+}
+function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
