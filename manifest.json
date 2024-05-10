@@ -6,7 +6,7 @@
     "action": {
         "default_popup": "index.html"
     },
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "storage"],
     "content_scripts": [
         {
             "matches": ["*://leetcode.com/problems/*"],
