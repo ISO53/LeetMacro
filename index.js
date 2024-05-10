@@ -1,9 +1,6 @@
 // ******************** Declare Variables ********************
 // Declare the macros
-const MACROS = {
-    sout: "System.out.println()",
-    psvm: "public static void main(String[] args) {\n}",
-};
+const MACROS = {};
 
 // Stack's max size should be this
 const MAX_KEY_SIZE = Object.keys(MACROS).reduce((max, key) => Math.max(max, key.length), 0);
@@ -15,6 +12,7 @@ let keyStack = [];
 const TABLE_CONTENTS = document.getElementById("table_contents");
 
 // ************************ JS Starts ************************
+handleFirstTime();
 document.addEventListener("keypress", handleKeyPress);
 document.getElementById("add_new").addEventListener("click", function () {
     addPairToUI();
@@ -293,4 +291,12 @@ async function handleTableElements() {
     });
 
     console.log(MACROS);
+}
+
+function handleFirstTime() {
+    if (!localStorage.getItem("first_time")) {
+        // that's the first time the extension runs
+        localStorage.setItem("first_time", false);
+        MACROS["sout"] = "System.out.println()";
+    }
 }
