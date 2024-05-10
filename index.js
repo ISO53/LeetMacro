@@ -211,3 +211,25 @@ function addPairToUI(key, value) {
     // Append the div to the table_contents div
     TABLE_CONTENTS.appendChild(div);
 }
+
+function addPair(key, value) {
+    if (key === "" || key == null || key == undefined || value === "" || value == null || value == undefined) return;
+    const storedPairs = JSON.parse(localStorage.getItem("pairs")) || {};
+    storedPairs[key] = value;
+    localStorage.setItem("pairs", JSON.stringify(storedPairs));
+}
+
+function deletePair(key) {
+    const storedPairs = JSON.parse(localStorage.getItem("pairs")) || {};
+    delete storedPairs[key];
+    localStorage.setItem("pairs", JSON.stringify(storedPairs));
+}
+
+function getAllPairs() {
+    return JSON.parse(localStorage.getItem("pairs")) || {};
+}
+
+function deleteAllPairs() {
+    localStorage.setItem("pairs", JSON.stringify({}));
+}
+
