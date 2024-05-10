@@ -3,6 +3,11 @@
     "description": "Creates macros for LeetCode",
     "version": "1.0",
     "manifest_version": 3,
+    "icons": {
+        "16": "res/logo_16.png",
+        "48": "res/logo_48.png",
+        "128": "res/logo_128.png"
+    },
     "action": {
         "default_popup": "index.html"
     },
