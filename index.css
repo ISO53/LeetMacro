@@ -1,0 +1,141 @@
+:root {
+    --dark-font-color: #1a1a1a;
+    --mid-dark-font-color: #262626;
+    --light-dark-font-color: #464646;
+
+    --light-font-color: #fafafa;
+    --mid-light-font-color: #bfbfbf;
+    --dark-light-font-color: #7a7a7a;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 20px;
+    color: var(--dark-light-font-color);
+    background-color: var(--mid-dark-font-color);
+}
+
+.inner_div {
+    padding: 5px;
+    width: fit-content;
+}
+
+h1 {
+    color: var(--light-font-color);
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.small_text {
+    color: var(--mid-light-font-color);
+}
+
+.pair {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 10px;
+    background-color: var(--dark-font-color);
+    color: var(--light-font-color);
+    border-bottom: 1px solid var(--dark-light-font-color);
+    user-select: none;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 150px;
+    height: 25px;
+    margin: 0;
+    padding: 5px 10px 5px 10px;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table_contents {
+    margin-top: 10px;
+    background-color: var(--dark-font-color);
+    border-radius: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 250px;
+}
+
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--dark-font-color);
+    border-radius: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--light-dark-font-color);
+    overflow: hidden;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-light-font-color);
+}
+
+.table_contents> :last-child {
+    border-bottom: none;
+}
+
+.row {
+    font-weight: 300;
+    color: var(--mid-light-font-color);
+}
+
+.flat {
+    border-radius: 0px;
+}
+
+.input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    background: none;
+    height: 25px;
+    color: var(--mid-light-font-color);
+    padding: 5px;
+    margin-left: 5px;
+}
+
+.add_new {
+    text-align: center;
+    margin: 0;
+    margin-top: 5px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: color 150ms ease;
+}
+
+.add_new:hover {
+    color: var(--light-font-color);
+}
+
+.delete {
+    filter: grayscale(100%);
+    cursor: pointer;
+    transition: filter 150ms ease;
+}
+
+.delete:hover {
+    filter: none;
+}
