@@ -11,8 +11,18 @@ const MAX_KEY_SIZE = Object.keys(MACROS).reduce((max, key) => Math.max(max, key.
 // Stack to store pressed keys
 let keyStack = [];
 
+// UI element that holds key value pairs
+const TABLE_CONTENTS = document.getElementById("table_contents");
+
 // ************************ JS Starts ************************
 document.addEventListener("keypress", handleKeyPress);
+document.getElementById("add_new").addEventListener("click", function () {
+    addPairToUI();
+});
+TABLE_CONTENTS.addEventListener("keypress", handleTableElements);
+
+addPair("sout", "System.out.println()");
+refreshPairsOnUI();
 
 // ******************** Declare Functions ********************
 function handleKeyPress(event) {
@@ -124,7 +134,7 @@ function insertTextAtCaret(text) {
         const textAfterCaret = currentText.substring(caretEnd);
 
         // Determine the macro key present at the caret position
-        const macroKey = Object.keys(MACROS).find(key => textBeforeCaret.endsWith(key));
+        const macroKey = Object.keys(MACROS).find((key) => textBeforeCaret.endsWith(key));
 
         if (macroKey) {
             // Determine the length of the macro key
@@ -241,6 +251,46 @@ function refreshPairsOnUI() {
         addPairToUI(key, pairs[key]);
     }
 }
+
 function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function handleTableElements() {
+    // Add small delay to capture user's last key press (bug fix)
+    await delay(50);
+
+    // Get the table_contents element
+    const tableContents = TABLE_CONTENTS;
+
+    // Delete all pairs from local storage to add updated ones
+    deleteAllPairs();
+
+    // Iterate over each pair div inside table_contents
+    const pairDivs = tableContents.querySelectorAll(".pair");
+    pairDivs.forEach((pairDiv) => {
+        // Get the key and value inputs inside the current pair div
+        const keyInput = pairDiv.querySelector("input[name='key']");
+        const valueInput = pairDiv.querySelector("input[name='value']");
+
+        // Get the values of key and value inputs and add them to the keyValuePairs array
+        const key = keyInput.value;
+        const value = valueInput.value;
+
+        // Add the key value pairs to local storage
+        addPair(key, value);
+    });
+
+    // Clear the MACROS object
+    Object.keys(MACROS).forEach((key) => delete MACROS[key]);
+
+    // Get all pairs from local storage
+    const allPairs = getAllPairs();
+
+    // Add each pair to the MACROS object
+    Object.keys(allPairs).forEach((key) => {
+        MACROS[key] = allPairs[key];
+    });
+
+    console.log(MACROS);
 }
