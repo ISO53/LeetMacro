@@ -167,3 +167,47 @@ function insertTextAtCaret(text) {
     }
 }
 
+function addPairToUI(key, value) {
+    // Create the elements
+    const div = document.createElement("div");
+    div.className = "pair flat";
+
+    const inputKey = document.createElement("input");
+    inputKey.className = "input";
+    inputKey.type = "text";
+    inputKey.name = "key";
+    inputKey.placeholder = "key here";
+    if (key) inputKey.value = key;
+    inputKey.autocomplete = "off";
+    inputKey.spellcheck = "false";
+
+    const inputValue = document.createElement("input");
+    inputValue.className = "input";
+    inputValue.type = "text";
+    inputValue.name = "value";
+    inputValue.placeholder = "value here";
+    if (value) inputValue.value = value;
+    inputValue.autocomplete = "off";
+    inputValue.spellcheck = "false";
+
+    const imgDelete = document.createElement("img");
+    imgDelete.className = "icon delete";
+    imgDelete.src = "res/trash.svg";
+    imgDelete.alt = "";
+    imgDelete.addEventListener("click", () => {
+        console.log("asdad");
+        deletePair(inputKey.value);
+        refreshPairsOnUI();
+    });
+
+    // Append the elements to the div
+    div.appendChild(inputKey);
+    div.appendChild(inputValue);
+    div.appendChild(imgDelete);
+
+    // Add the new pair to local storage
+    addPair(key, value);
+
+    // Append the div to the table_contents div
+    TABLE_CONTENTS.appendChild(div);
+}
