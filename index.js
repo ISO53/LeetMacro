@@ -297,6 +297,6 @@ function handleFirstTime() {
     if (!localStorage.getItem("first_time")) {
         // that's the first time the extension runs
         localStorage.setItem("first_time", false);
-        MACROS["sout"] = "System.out.println()";
+        addPair("sout", "System.out.println();");
     }
 }
