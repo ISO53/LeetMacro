@@ -10,22 +10,34 @@ let keyStack = [];
 
 // UI element that holds key value pairs
 const TABLE_CONTENTS = document.getElementById("table_contents");
+console.log(TABLE_CONTENTS);
 
 // ************************ JS Starts ************************
+// Wait for the dom content to load
+console.log("dom content loaded");
+
+// Handle first time things
 handleFirstTime();
+
+// Add key press listener
 document.addEventListener("keypress", handleKeyPress);
-document.getElementById("add_new").addEventListener("click", function () {
+
+// Add click listener to add_new button to allow users to add new macros
+document.getElementById("add_new").addEventListener("click", () => {
     addPairToUI();
 });
+
+// Add event listener to table that contains macros tu update macros every time user changes it
 TABLE_CONTENTS.addEventListener("keypress", handleTableElements);
 
-addPair("sout", "System.out.println()");
+// Refresh pairs (macros) on the extension popup
 refreshPairsOnUI();
 
 // ******************** Declare Functions ********************
 function handleKeyPress(event) {
     // Push the pressed key onto the key stack
     keyStack.push(event.key);
+    console.log(keyStack);
 
     // Force the max stack size, RAM friendly.
     if (keyStack.length > MAX_KEY_SIZE) keyStack.shift();
