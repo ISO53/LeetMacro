@@ -12,10 +12,14 @@
         "default_popup": "index.html"
     },
     "permissions": ["activeTab", "storage"],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": true
+    },
     "content_scripts": [
         {
             "matches": ["*://leetcode.com/problems/*"],
-            "js": ["index.js"]
+            "js": ["content_script.js"]
         }
     ]
 }
