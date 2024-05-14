@@ -1,8 +1,8 @@
 # LeetMacro
 
-<!-- [![GitHub Release](https://img.shields.io/github/v/release/ISO53/LeetMacro?label=GitHub%20Release&style=round-square&color=black)](https://github.com/ISO53/LeetMacro/releases/latest)
+[![GitHub Release](https://img.shields.io/github/v/release/ISO53/LeetMacro?label=GitHub%20Release&style=round-square&color=black)](https://github.com/ISO53/LeetMacro/releases/latest)
 [![License](https://img.shields.io/badge/license-GNU-black.svg?style=round-square)](LICENSE)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ISO53/LeetMacro?style=round-square&color=black) -->
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ISO53/LeetMacro?style=round-square&color=black)
 
 **LeetMacro** is a Browser extension designed to streamline your coding experience on LeetCode by allowing you to create and use macros for commonly typed phrases or code snippets. Because nobody types `System.out.println();`
 
