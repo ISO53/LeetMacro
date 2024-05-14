@@ -1,5 +1,6 @@
 {
     "name": "LeetMacro",
+    "author": "ISO53",
     "description": "Creates macros for LeetCode",
     "version": "1.0",
     "manifest_version": 3,
@@ -9,16 +10,15 @@
         "128": "res/logo_128.png"
     },
     "action": {
-        "default_popup": "index.html"
+        "default_popup": "popup.html"
     },
     "permissions": ["activeTab", "storage"],
     "background": {
-        "scripts": ["background.js"],
-        "persistent": true
+        "service_worker": "background.js"
     },
     "content_scripts": [
         {
-            "matches": ["*://leetcode.com/problems/*"],
+            "matches": ["https://leetcode.com/problems/*"],
             "js": ["content_script.js"]
         }
     ]
