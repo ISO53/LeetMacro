@@ -31,8 +31,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 
     function reloadMacros(macros) {
-        console.log("cs_reloadMacros_:", macros);
-
         // Clear the MACROS object
         Object.keys(MACROS).forEach((key) => delete MACROS[key]);
 
