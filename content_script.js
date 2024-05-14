@@ -3,37 +3,57 @@
 const MACROS = {};
 
 // Stack's max size should be this
-const MAX_KEY_SIZE = Object.keys(MACROS).reduce((max, key) => Math.max(max, key.length), 0);
+var MAX_KEY_SIZE;
 
 // Stack to store pressed keys
-let keyStack = [];
+var keyStack = [];
 
-// UI element that holds key value pairs
-const TABLE_CONTENTS = document.getElementById("table_contents");
-console.log(TABLE_CONTENTS);
+// App started or not
+var appStarted = false;
 
 // ************************ JS Starts ************************
-// Wait for the dom content to load
-console.log("dom content loaded");
+document.addEventListener("DOMContentLoaded", startApp);
 
-// Handle first time things
-handleFirstTime();
+// Fallback for immediate execution if the document is already loaded
+if (!appStarted && (document.readyState === "complete" || document.readyState === "interactive")) {
+    startApp();
+}
 
-// Add key press listener
-document.addEventListener("keypress", handleKeyPress);
+// Listen for messages from the background script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    switch (request.action) {
+        case "macros":
+            reloadMacros(request.message);
+            break;
+        default:
+            console.log("un-classified action type:", request.action);
+            break;
+    }
 
-// Add click listener to add_new button to allow users to add new macros
-document.getElementById("add_new").addEventListener("click", () => {
-    addPairToUI();
+    function reloadMacros(macros) {
+        console.log("cs_reloadMacros_:", macros);
+
+        // Clear the MACROS object
+        Object.keys(MACROS).forEach((key) => delete MACROS[key]);
+
+        // Add each pair to the MACROS object
+        Object.keys(macros).forEach((key) => {
+            MACROS[key] = macros[key];
+        });
+
+        // Re-calculate the max key size
+        MAX_KEY_SIZE = Object.keys(MACROS).reduce((max, key) => Math.max(max, key.length), 0);
+    }
 });
 
-// Add event listener to table that contains macros tu update macros every time user changes it
-TABLE_CONTENTS.addEventListener("keypress", handleTableElements);
-
-// Refresh pairs (macros) on the extension popup
-refreshPairsOnUI();
-
 // ******************** Declare Functions ********************
+function startApp() {
+    appStarted = true;
+
+    // Add key press listener
+    document.addEventListener("keypress", handleKeyPress);
+}
+
 function handleKeyPress(event) {
     // Push the pressed key onto the key stack
     keyStack.push(event.key);
@@ -187,128 +207,8 @@ function insertTextAtCaret(text) {
     }
 }
 
-function addPairToUI(key, value) {
-    // Create the elements
-    const div = document.createElement("div");
-    div.className = "pair flat";
-
-    const inputKey = document.createElement("input");
-    inputKey.className = "input";
-    inputKey.type = "text";
-    inputKey.name = "key";
-    inputKey.placeholder = "key here";
-    if (key) inputKey.value = key;
-    inputKey.autocomplete = "off";
-    inputKey.spellcheck = "false";
-
-    const inputValue = document.createElement("input");
-    inputValue.className = "input";
-    inputValue.type = "text";
-    inputValue.name = "value";
-    inputValue.placeholder = "value here";
-    if (value) inputValue.value = value;
-    inputValue.autocomplete = "off";
-    inputValue.spellcheck = "false";
-
-    const imgDelete = document.createElement("img");
-    imgDelete.className = "icon delete";
-    imgDelete.src = "res/trash.svg";
-    imgDelete.alt = "";
-    imgDelete.addEventListener("click", () => {
-        console.log("asdad");
-        deletePair(inputKey.value);
-        refreshPairsOnUI();
+function sendMessageToContentScript(msg) {
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, {message: msg});
     });
-
-    // Append the elements to the div
-    div.appendChild(inputKey);
-    div.appendChild(inputValue);
-    div.appendChild(imgDelete);
-
-    // Add the new pair to local storage
-    addPair(key, value);
-
-    // Append the div to the table_contents div
-    TABLE_CONTENTS.appendChild(div);
-}
-
-function addPair(key, value) {
-    if (key === "" || key == null || key == undefined || value === "" || value == null || value == undefined) return;
-    const storedPairs = JSON.parse(localStorage.getItem("pairs")) || {};
-    storedPairs[key] = value;
-    localStorage.setItem("pairs", JSON.stringify(storedPairs));
-}
-
-function deletePair(key) {
-    const storedPairs = JSON.parse(localStorage.getItem("pairs")) || {};
-    delete storedPairs[key];
-    localStorage.setItem("pairs", JSON.stringify(storedPairs));
-}
-
-function getAllPairs() {
-    return JSON.parse(localStorage.getItem("pairs")) || {};
-}
-
-function deleteAllPairs() {
-    localStorage.setItem("pairs", JSON.stringify({}));
-}
-
-function refreshPairsOnUI() {
-    TABLE_CONTENTS.innerHTML = "";
-    const pairs = getAllPairs();
-
-    for (const key in pairs) {
-        addPairToUI(key, pairs[key]);
-    }
-}
-
-function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function handleTableElements() {
-    // Add small delay to capture user's last key press (bug fix)
-    await delay(50);
-
-    // Get the table_contents element
-    const tableContents = TABLE_CONTENTS;
-
-    // Delete all pairs from local storage to add updated ones
-    deleteAllPairs();
-
-    // Iterate over each pair div inside table_contents
-    const pairDivs = tableContents.querySelectorAll(".pair");
-    pairDivs.forEach((pairDiv) => {
-        // Get the key and value inputs inside the current pair div
-        const keyInput = pairDiv.querySelector("input[name='key']");
-        const valueInput = pairDiv.querySelector("input[name='value']");
-
-        // Get the values of key and value inputs and add them to the keyValuePairs array
-        const key = keyInput.value;
-        const value = valueInput.value;
-
-        // Add the key value pairs to local storage
-        addPair(key, value);
-    });
-
-    // Clear the MACROS object
-    Object.keys(MACROS).forEach((key) => delete MACROS[key]);
-
-    // Get all pairs from local storage
-    const allPairs = getAllPairs();
-
-    // Add each pair to the MACROS object
-    Object.keys(allPairs).forEach((key) => {
-        MACROS[key] = allPairs[key];
-    });
-
-    console.log(MACROS);
-}
-
-function handleFirstTime() {
-    if (!localStorage.getItem("first_time")) {
-        // that's the first time the extension runs
-        localStorage.setItem("first_time", false);
-        addPair("sout", "System.out.println();");
-    }
 }
