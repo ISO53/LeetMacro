@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.runtime.sendMessage(request);
     } else {
         // Forward the message to the content script
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             if (tabs[0] === undefined) return;
             chrome.tabs.sendMessage(tabs[0].id, request);
         });
