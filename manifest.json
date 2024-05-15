@@ -13,9 +13,6 @@
         "default_popup": "popup/popup.html"
     },
     "permissions": ["activeTab", "storage"],
-    "background": {
-        "service_worker": "background.js"
-    },
     "content_scripts": [
         {
             "matches": ["https://leetcode.com/problems/*"],
