@@ -14,9 +14,6 @@ document.getElementById("add_new").addEventListener("click", () => {
 // Refresh pairs (macros) on the extension popup
 refreshPairsOnUI();
 
-// Send all pairs to content_script.js
-sendMessageToContentScript("macros", getAllPairsFromStorage());
-
 // ******************** Declare Functions ********************
 function addPairToUI(key, value) {
     // Create the elements
@@ -94,8 +91,6 @@ function handleFirstTime() {
     }
 }
 
-function sendMessageToContentScript(action, message) {
-    chrome.runtime.sendMessage({action, message});
 }
 
 function refreshPairsOnUI() {
@@ -136,6 +131,4 @@ function handleTableElements() {
     // Get all pairs from local storage
     const allPairs = getAllPairsFromStorage();
 
-    // Send all pairs to content_script.js
-    sendMessageToContentScript("macros", allPairs);
 }

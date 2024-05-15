@@ -19,25 +19,6 @@ if (!appStarted && (document.readyState === "complete" || document.readyState ==
     startApp();
 }
 
-// Listen for messages from the background script
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    switch (request.action) {
-        case "macros":
-            reloadMacros(request.message);
-            break;
-        default:
-            console.log("un-classified action type:", request.action);
-            break;
-    }
-
-    function reloadMacros(macros) {
-        // Clear the MACROS object
-        Object.keys(MACROS).forEach((key) => delete MACROS[key]);
-
-        // Add each pair to the MACROS object
-        Object.keys(macros).forEach((key) => {
-            MACROS[key] = macros[key];
-        });
 
         // Re-calculate the max key size
         MAX_KEY_SIZE = Object.keys(MACROS).reduce((max, key) => Math.max(max, key.length), 0);
@@ -205,8 +186,5 @@ function insertTextAtCaret(text) {
     }
 }
 
-function sendMessageToContentScript(msg) {
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-        chrome.tabs.sendMessage(tabs[0].id, {message: msg});
     });
 }
