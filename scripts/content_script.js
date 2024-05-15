@@ -43,7 +43,7 @@ function handleKeyPress(event) {
 
     // Check if the stacked keys match any macro key
     const stackedKeys = keyStack.join("");
-    const macro = Object.keys(MACROS).find((key) => key.endsWith(stackedKeys));
+    const macro = Object.keys(MACROS).find((key) => stackedKeys.endsWith(key));
 
     if (macro) {
         // Clear the key stack if a macro is found
