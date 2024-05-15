@@ -10,7 +10,6 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border-radius: 20px;
     color: var(--dark-light-font-color);
     background-color: var(--mid-dark-font-color);
 }
@@ -78,7 +77,7 @@ h1 {
 /* Track */
 ::-webkit-scrollbar-track {
     background: var(--dark-font-color);
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 /* Handle */
@@ -138,4 +137,45 @@ h1 {
 
 .delete:hover {
     filter: none;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.button {
+    border: none;
+    background-color: var(--dark-font-color);
+    color: var(--mid-light-font-color);
+    background-color: var(--mid-light-font-color);
+    color: var(--dark-font-color);
+    border-radius: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 35px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.button:hover {
+    background-color: var(--dark-font-color);
+    color: var(--mid-light-font-color);
+}
+
+.ghost {
+    background-color: transparent;
+    color: var(--mid-light-font-color);
+    border: 1px solid var(--mid-light-font-color);
+    transition: border 150ms ease, color 150ms ease;
+}
+
+.ghost:hover {
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    background-color: transparent;
 }
