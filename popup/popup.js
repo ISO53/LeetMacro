@@ -9,6 +9,15 @@ handleFirstTime();
 // Add click listener to add_new button to allow users to add new macros
 document.getElementById("add_new").addEventListener("click", () => {
     addPairToUI();
+document.getElementById("reset_button").addEventListener("click", async () => {
+    await deleteAllPairsFromStorage();
+    await setPairsInStorage({sout: "System.out.println();"});
+    await refreshPairsOnUI();
+});
+
+document.getElementById("save_changes_button").addEventListener("click", async () => {
+    await handleTableElements();
+    await refreshPairsOnUI();
 });
 
 // Refresh pairs (macros) on the extension popup
