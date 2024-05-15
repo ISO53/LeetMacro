@@ -102,10 +102,6 @@ function refreshPairsOnUI() {
     }
 }
 
-function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 function handleTableElements() {
     // Get the table_contents element
     const tableContents = TABLE_CONTENTS;
