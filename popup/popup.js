@@ -7,8 +7,10 @@ const TABLE_CONTENTS = document.getElementById("table_contents");
 handleFirstTime();
 
 // Add click listener to add_new button to allow users to add new macros
-document.getElementById("add_new").addEventListener("click", () => {
-    addPairToUI();
+document.getElementById("add_new").addEventListener("click", async () => {
+    await addPairToUI();
+});
+
 document.getElementById("reset_button").addEventListener("click", async () => {
     await deleteAllPairsFromStorage();
     await setPairsInStorage({sout: "System.out.println();"});
