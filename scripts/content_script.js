@@ -38,7 +38,6 @@ function startApp() {
 function handleKeyPress(event) {
     // Push the pressed key onto the key stack
     keyStack.push(event.key);
-    console.log(keyStack);
 
     // Force the max stack size, RAM friendly.
     if (keyStack.length > MAX_KEY_SIZE) keyStack.shift();
