@@ -3,7 +3,7 @@
 const MACROS = {};
 
 // Stack's max size should be this
-var MAX_KEY_SIZE;
+var MAX_KEY_SIZE = 0;
 
 // Stack to store pressed keys
 var keyStack = [];
