@@ -22,11 +22,9 @@ if (!appStarted && (document.readyState === "complete" || document.readyState ==
 // Get all pairs and reload the macros on extension startup
 getAllPairsFromStorage().then(reloadMacros);
 
-        // Re-calculate the max key size
-        MAX_KEY_SIZE = Object.keys(MACROS).reduce((max, key) => Math.max(max, key.length), 0);
-    }
 // Add event listener to macros in storage. In case of value change, update them here
 chrome.storage.local.onChanged.addListener(() => {
+    getAllPairsFromStorage().then(reloadMacros);
 });
 
 // ******************** Declare Functions ********************
@@ -191,6 +189,13 @@ function insertTextAtCaret(text) {
 }
 
 function getAllPairsFromStorage() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get("pairs", (data) => {
+            resolve(data.pairs || {});
+        });
+    });
+}
+
 function reloadMacros(macros) {
     // Clear the MACROS object
     Object.keys(MACROS).forEach((key) => delete MACROS[key]);

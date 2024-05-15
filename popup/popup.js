@@ -15,7 +15,7 @@ document.getElementById("add_new").addEventListener("click", () => {
 refreshPairsOnUI();
 
 // ******************** Declare Functions ********************
-function addPairToUI(key, value) {
+async function addPairToUI(key, value) {
     // Create the elements
     const div = document.createElement("div");
     div.className = "pair flat";
@@ -28,7 +28,6 @@ function addPairToUI(key, value) {
     if (key) inputKey.value = key;
     inputKey.autocomplete = "off";
     inputKey.spellcheck = "false";
-    inputKey.addEventListener("input", handleTableElements);
 
     const inputValue = document.createElement("input");
     inputValue.className = "input";
@@ -38,16 +37,14 @@ function addPairToUI(key, value) {
     if (value) inputValue.value = value;
     inputValue.autocomplete = "off";
     inputValue.spellcheck = "false";
-    inputValue.addEventListener("input", handleTableElements);
 
     const imgDelete = document.createElement("img");
     imgDelete.className = "icon delete";
     imgDelete.src = "res/trash.svg";
     imgDelete.alt = "";
-    imgDelete.addEventListener("click", () => {
-        deletePairFromStorage(inputKey.value);
-        sendMessageToContentScript("macros", getAllPairsFromStorage());
-        refreshPairsOnUI();
+    imgDelete.addEventListener("click", async ()=>{
+        await deletePairFromStorage(key);
+        await refreshPairsOnUI();
     });
 
     // Append the elements to the div
@@ -55,63 +52,58 @@ function addPairToUI(key, value) {
     div.appendChild(inputValue);
     div.appendChild(imgDelete);
 
-    // Add the new pair to local storage
-    addPairToStorage(key, value);
-
     // Append the div to the table_contents div
     TABLE_CONTENTS.appendChild(div);
 }
 
-function addPairToStorage(key, value) {
-    if (key === "" || key == null || key == undefined || value === "" || value == null || value == undefined) return;
-    const storedPairs = JSON.parse(localStorage.getItem("pairs")) || {};
-    storedPairs[key] = value;
-    localStorage.setItem("pairs", JSON.stringify(storedPairs));
+async function setPairsInStorage(pairs) {
+    await chrome.storage.local.set({pairs: pairs});
 }
 
-function deletePairFromStorage(key) {
-    const storedPairs = JSON.parse(localStorage.getItem("pairs")) || {};
+async function deletePairFromStorage(key) {
+    const storedPairs = (await chrome.storage.local.get("pairs"))?.pairs || {};
     delete storedPairs[key];
-    localStorage.setItem("pairs", JSON.stringify(storedPairs));
+    await chrome.storage.local.set({pairs: storedPairs});
 }
 
-function getAllPairsFromStorage() {
-    return JSON.parse(localStorage.getItem("pairs")) || {};
+async function getAllPairsFromStorage() {
+    const data = await chrome.storage.local.get("pairs");
+    return data.pairs || {};
 }
 
-function deleteAllPairsFromStorage() {
-    localStorage.setItem("pairs", JSON.stringify({}));
+async function deleteAllPairsFromStorage() {
+    await chrome.storage.local.set({pairs: {}});
 }
 
 function handleFirstTime() {
-    if (!localStorage.getItem("first_time")) {
-        // that's the first time the extension runs
-        localStorage.setItem("first_time", false);
-        addPairToStorage("sout", "System.out.println();");
-    }
+    chrome.storage.local.get("first_time", (data) => {
+        if (!data.first_time) {
+            // that's the first time the extension runs
+            chrome.storage.local.set({first_time: false}, () => {
+                setPairsInStorage({sout: "System.out.println();"});
+            });
+        }
+    });
 }
 
-}
-
-function refreshPairsOnUI() {
+async function refreshPairsOnUI() {
     TABLE_CONTENTS.innerHTML = "";
-    const pairs = getAllPairsFromStorage();
+    const pairs = await getAllPairsFromStorage();
 
     for (const key in pairs) {
-        addPairToUI(key, pairs[key]);
+        await addPairToUI(key, pairs[key]);
     }
 }
 
-function handleTableElements() {
-    // Get the table_contents element
-    const tableContents = TABLE_CONTENTS;
-
+async function handleTableElements() {
     // Delete all pairs from local storage to add updated ones
-    deleteAllPairsFromStorage();
+    await deleteAllPairsFromStorage();
 
     // Iterate over each pair div inside table_contents
-    const pairDivs = tableContents.querySelectorAll(".pair");
-    pairDivs.forEach((pairDiv) => {
+    const pairDivs = TABLE_CONTENTS.querySelectorAll(".pair");
+    const pairs = {};
+
+    pairDivs.forEach(async (pairDiv) => {
         // Get the key and value inputs inside the current pair div
         const keyInput = pairDiv.querySelector("input[name='key']");
         const valueInput = pairDiv.querySelector("input[name='value']");
@@ -120,11 +112,10 @@ function handleTableElements() {
         const key = keyInput.value;
         const value = valueInput.value;
 
-        // Add the key value pairs to local storage
-        addPairToStorage(key, value);
+        // Add the key value to pairs array
+        pairs[key] = value;
     });
 
-    // Get all pairs from local storage
-    const allPairs = getAllPairsFromStorage();
-
+    // Update the storage with new macros
+    await setPairsInStorage(pairs);
 }
