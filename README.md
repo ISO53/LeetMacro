@@ -10,6 +10,12 @@
 
 <br>
 
+<!-- [![GitHub Release](https://img.shields.io/github/v/release/ISO53/LeetMacro?label=GitHub%20Release&style=round-square&color=black)](https://github.com/ISO53/LeetMacro/releases/latest)
+[![License](https://img.shields.io/badge/license-GNU-black.svg?style=round-square)](LICENSE)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ISO53/LeetMacro?style=round-square&color=black)
+[![Chrome Web Store](https://img.shields.io/badge/Available_On-Chrome_Web_Store-black)](https://chromewebstore.google.com/detail/leetmacro/ijjbjplfbmkfifipofkdbpadlehhndha?pli=1) -->
+
+
 <p align="center">
   <a href="https://github.com/ISO53/LeetMacro/releases/latest">
     <img src="https://img.shields.io/github/v/release/ISO53/LeetMacro?label=GitHub%20Release&style=round-square&color=black" alt="GitHub Release">
@@ -53,9 +59,11 @@
 ## Usage
 
 1. **Open the Popup:**
+
     - Click on the LeetMacro extension icon next to the address bar in your browser.
 
 2. **Add a New Macro:**
+
     - Click on "Add New" to create a new macro.
     - Enter a shortcut (key) and the corresponding code snippet (value).
 
@@ -64,7 +72,9 @@
     - Press `Enter` to accept the code snippet. Any other key will remove the suggested code snippet from the screen.
 
 ## Contributing
+
 Your contributions are valued! We appreciate your cooperation in making our project better.
 
 ## License
+
 This project is licensed under the [GNU General Public License v3.0](LICENSE). Feel free to modify the content and structure based on your preferences and project specifics.
