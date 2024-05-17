@@ -53,7 +53,7 @@ async function addPairToUI(key, value) {
     imgDelete.className = "icon delete";
     imgDelete.src = "res/trash.svg";
     imgDelete.alt = "";
-    imgDelete.addEventListener("click", async ()=>{
+    imgDelete.addEventListener("click", async () => {
         await deletePairFromStorage(key);
         await refreshPairsOnUI();
     });
