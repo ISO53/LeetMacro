@@ -20,6 +20,7 @@ document.getElementById("reset_button").addEventListener("click", async () => {
 document.getElementById("save_changes_button").addEventListener("click", async () => {
     await handleTableElements();
     await refreshPairsOnUI();
+    showSavedAnimation();
 });
 
 // Refresh pairs (macros) on the extension popup
@@ -129,4 +130,13 @@ async function handleTableElements() {
 
     // Update the storage with new macros
     await setPairsInStorage(pairs);
+}
+
+function showSavedAnimation() {
+    const checkMark = document.getElementById("check_mark");
+
+    checkMark.classList.add("animate");
+    setTimeout(() => {
+        checkMark.classList.remove("animate");
+    }, 1500);
 }

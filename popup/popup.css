@@ -146,6 +146,7 @@ h1 {
 }
 
 .button {
+    position: relative;
     border: none;
     background-color: var(--dark-font-color);
     color: var(--mid-light-font-color);
@@ -178,4 +179,16 @@ h1 {
     color: #d32f2f;
     border: 1px solid #d32f2f;
     background-color: transparent;
+}
+
+.checked {
+    top: 6px;
+    left: 0;
+    position: absolute;
+    z-index: -1;
+    transition: transform 150ms ease;
+}
+
+.animate {
+    transform: translateX(-30px);
 }
