@@ -89,7 +89,7 @@ async function deleteAllPairsFromStorage() {
 
 function handleFirstTime() {
     chrome.storage.local.get("first_time", (data) => {
-        if (!data.first_time) {
+        if (data.first_time === true) {
             // that's the first time the extension runs
             chrome.storage.local.set({first_time: false}, () => {
                 setPairsInStorage({sout: "System.out.println();"});
