@@ -2,7 +2,7 @@
     "name": "LeetMacro",
     "author": "ISO53",
     "description": "Creates macros for LeetCode",
-    "version": "1.0",
+    "version": "1.0.2",
     "manifest_version": 3,
     "icons": {
         "16": "popup/res/logo_16.png",
